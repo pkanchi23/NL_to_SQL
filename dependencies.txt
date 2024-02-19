@@ -1,0 +1,8 @@
+streamlit
+sqlite3
+pandas
+os
+pathlib
+openai
+promptlayer
+python-dotenv
