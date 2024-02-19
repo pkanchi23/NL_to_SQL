@@ -54,7 +54,9 @@ def refine_sql_with_promptlayer(natural_language, columns):
 
 # Connect to your SQL database
 # Adjust this line to match your database type and credentials
-conn = sqlite3.connect('/Users/pranav/Desktop/NYU_Stuff/Projects/northwind.db')
+current_dir = Path(__file__).parent
+db_path = current_dir / 'northwind.db'
+conn = sqlite3.connect(str(db_path))
 cursor = conn.cursor()
 
 # Get details of the 'Orders' table
