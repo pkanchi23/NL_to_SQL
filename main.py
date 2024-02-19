@@ -17,7 +17,6 @@ OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 openai.api_key = OPENAI_API_KEY
 promptlayer.openai.api_key = OPENAI_API_KEY
 
-
 # Function to refine SQL query using PromptLayer
 def refine_sql_with_promptlayer(natural_language, columns):
 
