@@ -103,9 +103,7 @@ if st.button("Generate SQL Query"):
     # Assuming convert_to_sql function returns a valid SQL query as a string
     # sql_query = convert_to_sql(natural_language_input)
     sql_query = refine_sql_with_promptlayer(natural_language_input, column_data_string)
-    print(sql_query)
     sql_query = clean_string(sql_query)
-    print(sql_query)
     st.text(f"SQL Query: {sql_query}")
     
     # Execute the SQL query
@@ -116,15 +114,21 @@ if st.button("Generate SQL Query"):
         st.write(df)  #Display the result of the SQL query
     except Exception as e:
         st.error(f"Error executing query: {e}")
-    # Add thumbs up/down buttons and ask the user to rate the result
+        
+    #code rating
+        # Rate your result section with updated layout for closer buttons
     st.write("Rate your result:")
-    col1, col2 = st.columns(2)
-    if col1.button("👍", key="thumbs_up"):
+
+    # Creating two columns next to each other with minimal spacing
+    thumbs_up, thumbs_down, _, _, _,_, _, _, _, _, _, _, _,_, _, _, = st.columns([1, 1, 1, 1, 1, 1, 1,1, 1, 1, 1, 1, 1, 1,1, 1])
+
+    if thumbs_up.button("👍", key="thumbs_up"):
         st.session_state['user_feedback'] = "positive"
-        print("Result worked?")
-    if col2.button("👎", key="thumbs_down"):
+        st.success("You clicked 👍")
+
+    if thumbs_down.button("👎", key="thumbs_down"):
         st.session_state['user_feedback'] = "negative"
-        print("Result didn't work.")
+        st.error("You clicked 👎")
 
 # Close the connection to the database at the end of the app's execution
 conn.close()
