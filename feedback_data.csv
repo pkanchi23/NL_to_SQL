@@ -1,0 +1,3 @@
+Natural Language Question,Returned SQL,Feedback
+Example Question,SELECT * FROM table WHERE condition='value';,Positive
+Example Question,SELECT * FROM table WHERE condition='value';,Positive
