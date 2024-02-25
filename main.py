@@ -33,9 +33,6 @@ def refine_sql_with_promptlayer(natural_language, columns):
     
     response, pl_id = promptlayer.openai.ChatCompletion.create(
         **NL_to_SQL_template["llm_kwargs"],
-        model='gpt-3.5-turbo',
-        temperature=0.7,
-        max_tokens=150,
         return_pl_id=True
     )
     
