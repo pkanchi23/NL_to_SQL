@@ -138,17 +138,22 @@ if st.session_state['program_ran']:
     except Exception as e:
         st.error(f"Error re-displaying query result: {e}")
     
-if st.session_state['program_ran'] and not st.session_state['feedback_given']:
+feedback_placeholder = st.empty()
+
+if st.session_state['program_ran']:
     st.write("Rate your result:")
     thumbs_up, thumbs_down = st.columns(2)
-    if thumbs_up.button("👍", key="thumbs_up"):
+    
+    if thumbs_up.button("👍", key="thumbs_up") and not st.session_state['feedback_given']:
         save_feedback(natural_language_input, st.session_state['SQL_query'], "Positive", st.session_state['program_ran'])
         st.success("Thanks for the feedback! 👍")
         st.session_state['feedback_given'] = True
-    if thumbs_down.button("👎", key="thumbs_down"):
+        
+    if thumbs_down.button("👎", key="thumbs_down") and not st.session_state['feedback_given']:
         save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'])
         st.error("Thanks for the feedback, we're working on improving it!")
         st.session_state['feedback_given'] = True
 
-# Close the connection to the database at the end of the app's execution
+
+# Close the connection to the database
 conn.close()
