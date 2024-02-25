@@ -1,3 +1,56 @@
-Natural Language Question,Returned SQL,Feedback
-Example Question,SELECT * FROM table WHERE condition='value';,Positive
-Example Question,SELECT * FROM table WHERE condition='value';,Positive
+Natural Language Question,Returned SQL,Feedback,Program Ran
+,,,
+,,,
+Test1,test2,test3 positive,
+Test1,test2,test3 positive,
+How many different ship names are there?,SELECT * FROM ORDERS,Negative,
+How many different ship names are there?,SELECT * FROM ORDERS,,
+How many different ship names are there?,SELECT * FROM ORDERS,,
+How many different ship names are there?,SELECT * FROM ORDERS,,1.0
+How many different ship names are there?,SELECT * FROM ORDERS,,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders;",,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumShipNames
+FROM Orders;",,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders;",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders",Negative,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders",Negative,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders",Negative,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders",Negative,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders",Negative,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumOfShipNames
+FROM Orders",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS TotalShipNames
+FROM Orders",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumShipNames
+FROM Orders;",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumShipNames
+FROM Orders",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders;",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS TotalShipNames
+FROM Orders",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders;",Negative,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS TotalShipNames
+FROM Orders",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumOfShipNames
+FROM Orders;",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders;",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders;",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders;",Positive,True
