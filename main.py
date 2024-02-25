@@ -19,7 +19,6 @@ promptlayer.openai.api_key = OPENAI_API_KEY
 
 # Function to refine SQL query using PromptLayer
 def refine_sql_with_promptlayer(natural_language, columns):
-
     variables = {
     'database_name':"Northwest Traders database from Microsoft 2016",
     'columns':"",
@@ -44,11 +43,6 @@ def refine_sql_with_promptlayer(natural_language, columns):
     promptlayer.track.prompt(request_id=pl_id, 
         prompt_name='NL_to_SQL', prompt_input_variables=variables)
 
-    # Evaluate the request
-#     score = evaluate_request(resp)
-#     print(score)
-#     promptlayer.track.score(request_id=pl_id, score=score)
-    
     refined_sql = response.choices[0].message.content.strip()
     return refined_sql
 
@@ -69,8 +63,13 @@ def clean_string(input_string):
 # Adjust this line to match your database type and credentials
 current_dir = Path(__file__).parent
 db_path = current_dir / 'northwind.db'
+feedback_data_path = str(current_dir/"feedback_data.csv")
 conn = sqlite3.connect(str(db_path))
 cursor = conn.cursor()
+
+#setup the dataframe
+df = pd.read_csv(feedback_data_path)
+df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 
 # Get details of the 'Orders' table
 cursor.execute("PRAGMA table_info(Orders)")
@@ -93,42 +92,63 @@ st.title("SQL Query Generator Example")
 
 # Display a sample of the original database
 if 'display_sample' not in st.session_state or st.session_state.display_sample:
-    sample_query = "SELECT * FROM Orders"  # Example: Adjust table name and limit as needed
+    sample_query = "SELECT * FROM Orders"
     sample_df = pd.read_sql_query(sample_query, conn)
     st.write("Original Database:", sample_df)
 
 natural_language_input = st.text_input("Enter your question:", "How many different ship names are there?")
 
-if st.button("Generate SQL Query"):
-    # Assuming convert_to_sql function returns a valid SQL query as a string
-    # sql_query = convert_to_sql(natural_language_input)
+def save_feedback(natural_language_input, sql_query, feedback, ran):
+    current_dir = Path(__file__).parent
+    feedback_data_path = str(current_dir/"feedback_data.csv")
+    df = pd.read_csv(feedback_data_path)
+    new_row = {
+            "Natural Language Question": natural_language_input, 
+            "Returned SQL": sql_query, 
+            "Feedback": feedback,
+            "Program Ran": ran
+        }
+    df = df.append(new_row, ignore_index=True)
+    print("should have worked?")
+    df.to_csv(feedback_data_path, index=False)
+
+
+if 'feedback_given' not in st.session_state:
+    st.session_state['feedback_given'] = False
+if 'SQL_query' not in st.session_state:
+    st.session_state['SQL_query'] = ""
+if 'program_ran' not in st.session_state:
+    st.session_state['program_ran'] = False
+
+if st.button("Generate SQL Query", key="submit"):
     sql_query = refine_sql_with_promptlayer(natural_language_input, column_data_string)
-    sql_query = clean_string(sql_query)
-    st.text(f"SQL Query: {sql_query}")
-    
-    # Execute the SQL query
+    st.session_state['SQL_query'] = clean_string(sql_query)
     try:
-        df = pd.read_sql_query(sql_query, conn)
-        #Replace the sample of the original database with the result of the SQL query
-        # st.session_state.display_sample = False  #Update session state to stop displaying the sample
-        st.write(df)  #Display the result of the SQL query
+        df = pd.read_sql_query(st.session_state['SQL_query'], conn)
+        st.session_state['program_ran'] = True
     except Exception as e:
         st.error(f"Error executing query: {e}")
-        
-    #code rating
-        # Rate your result section with updated layout for closer buttons
+        st.session_state['program_ran'] = False
+    
+# Ensure the SQL result remains displayed after feedback
+if st.session_state['program_ran']:
+    try:
+        df = pd.read_sql_query(st.session_state['SQL_query'], conn)
+        st.write(df)
+    except Exception as e:
+        st.error(f"Error re-displaying query result: {e}")
+    
+if st.session_state['program_ran'] and not st.session_state['feedback_given']:
     st.write("Rate your result:")
-
-    # Creating two columns next to each other with minimal spacing
-    thumbs_up, thumbs_down, _, _, _,_, _, _, _, _, _, _, _,_, _, _, = st.columns([1, 1, 1, 1, 1, 1, 1,1, 1, 1, 1, 1, 1, 1,1, 1])
-
+    thumbs_up, thumbs_down = st.columns(2)
     if thumbs_up.button("👍", key="thumbs_up"):
-        st.session_state['user_feedback'] = "positive"
-        st.success("You clicked 👍")
-
+        save_feedback(natural_language_input, st.session_state['SQL_query'], "Positive", st.session_state['program_ran'])
+        st.success("Thanks for the feedback! 👍")
+        st.session_state['feedback_given'] = True
     if thumbs_down.button("👎", key="thumbs_down"):
-        st.session_state['user_feedback'] = "negative"
-        st.error("You clicked 👎")
+        save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'])
+        st.error("Thanks for the feedback, we're working on improving it!")
+        st.session_state['feedback_given'] = True
 
 # Close the connection to the database at the end of the app's execution
 conn.close()
