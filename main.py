@@ -10,8 +10,6 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
-
-# Assuming environment variables are already set
 promptlayer.api_key = os.environ.get('PROMPTLAYER_API_KEY')
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 openai.api_key = OPENAI_API_KEY
@@ -77,6 +75,7 @@ if 'display_sample' not in st.session_state or st.session_state.display_sample:
 
 natural_language_input = st.text_input("Enter your question:", "How many different ship names are there?")
 
+#Push feedback to CSV
 def save_feedback(natural_language_input, sql_query, feedback, ran):
     current_dir = Path(__file__).parent
     feedback_data_path = str(current_dir/"feedback_data.csv")
@@ -116,6 +115,7 @@ if st.session_state['program_ran']:
     
 feedback_placeholder = st.empty()
 
+#Feedback buttons
 if st.session_state['program_ran']:
     st.write("Rate your result:")
     thumbs_up, thumbs_down = st.columns(2)
