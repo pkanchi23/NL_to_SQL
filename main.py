@@ -99,12 +99,15 @@ if 'program_ran' not in st.session_state:
 
 if st.button("Generate SQL Query", key="submit"):
     st.session_state['SQL_query'] = refine_sql_with_promptlayer(natural_language_input, column_data_string)
+    st.session_state['feedback_given'] = False
+    st.session_state['program_ran'] = False
     try:
         df = pd.read_sql_query(st.session_state['SQL_query'], conn)
         st.session_state['program_ran'] = True
     except Exception as e:
         st.error(f"Error executing query: {e}")
         st.session_state['program_ran'] = False
+        save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'])
     
 # Ensure the SQL result remains displayed after feedback
 if st.session_state['program_ran']:
@@ -114,6 +117,8 @@ if st.session_state['program_ran']:
         st.write(df)
     except Exception as e:
         st.error(f"Error re-displaying query result: {e}")
+        st.session_state['program_ran'] = False
+        save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'])
     
 feedback_placeholder = st.empty()
 
@@ -129,9 +134,8 @@ if st.session_state['program_ran']:
         
     if thumbs_down.button("👎", key="thumbs_down") and not st.session_state['feedback_given']:
         save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'])
-        st.error("Thanks for the feedback, we're working on improving it!")
+        st.error("Thanks for the feedback, we're working on it!")
         st.session_state['feedback_given'] = True
-
 
 # Close the connection to the database
 conn.close()
