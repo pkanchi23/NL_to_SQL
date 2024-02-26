@@ -38,7 +38,7 @@ def refine_sql_with_promptlayer(natural_language, columns):
     promptlayer.track.prompt(request_id=pl_id, 
         prompt_name='NL_to_SQL', prompt_input_variables=variables)
 
-    refined_sql = response.choices[0].message.content.strip()
+    refined_sql = response.choices[0].message.content
     return refined_sql
 
 # Connect to your SQL database
