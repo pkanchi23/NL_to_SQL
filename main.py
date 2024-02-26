@@ -89,6 +89,7 @@ def save_feedback(natural_language_input, sql_query, feedback, ran):
     df = df.append(new_row, ignore_index=True)
     df.to_csv(feedback_data_path, index=False)
 
+#add session state variables to persist in streamlit across runs 
 if 'feedback_given' not in st.session_state:
     st.session_state['feedback_given'] = False
 if 'SQL_query' not in st.session_state:
