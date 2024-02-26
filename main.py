@@ -43,19 +43,6 @@ def refine_sql_with_promptlayer(natural_language, columns):
     refined_sql = response.choices[0].message.content.strip()
     return refined_sql
 
-#Function to clean the output string of SQL code, was returning in markdown format so this changes that
-def clean_string(input_string):
-    # Check if the string is encapsulated by triple backticks and contains `sql`
-    if input_string.startswith("```sql") and input_string.endswith("```"):
-        # Strip the triple backticks and 'sql' identifier from both sides
-        cleaned_string = input_string[7:-3].strip()
-    elif input_string.startswith("```") and input_string.endswith("```"):
-        # If the string starts and ends with triple backticks without 'sql'
-        cleaned_string = input_string[3:-3].strip()
-    else:
-        cleaned_string = input_string
-    return cleaned_string
-
 # Connect to your SQL database
 # Adjust this line to match your database type and credentials
 current_dir = Path(__file__).parent
@@ -106,7 +93,6 @@ def save_feedback(natural_language_input, sql_query, feedback, ran):
             "Program Ran": ran
         }
     df = df.append(new_row, ignore_index=True)
-    print("should have worked?")
     df.to_csv(feedback_data_path, index=False)
 
 
@@ -118,8 +104,7 @@ if 'program_ran' not in st.session_state:
     st.session_state['program_ran'] = False
 
 if st.button("Generate SQL Query", key="submit"):
-    sql_query = refine_sql_with_promptlayer(natural_language_input, column_data_string)
-    st.session_state['SQL_query'] = clean_string(sql_query)
+    st.session_state['SQL_query'] = refine_sql_with_promptlayer(natural_language_input, column_data_string)
     try:
         df = pd.read_sql_query(st.session_state['SQL_query'], conn)
         st.session_state['program_ran'] = True
