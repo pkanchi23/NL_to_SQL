@@ -108,6 +108,7 @@ if st.button("Generate SQL Query", key="submit"):
     
 # Ensure the SQL result remains displayed after feedback
 if st.session_state['program_ran']:
+    st.write("SQL Query: %s" % (st.session_state['SQL_query']))
     try:
         df = pd.read_sql_query(st.session_state['SQL_query'], conn)
         st.write(df)
