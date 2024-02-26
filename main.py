@@ -55,21 +55,17 @@ cursor = conn.cursor()
 df = pd.read_csv(feedback_data_path)
 df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 
-# Get details of the 'Orders' table
+# Get details of the 'Orders' table for column names
 cursor.execute("PRAGMA table_info(Orders)")
 columns = cursor.fetchall()
-
-# Extract column names from the rows
 column_names = [column[1] for column in columns]  # column[1] contains the name of the column
 
-# Fetch one row of example data from the 'Orders' table
+# Pull the first row of data for examples to pass the prompt
 cursor.execute("SELECT * FROM Orders LIMIT 1")
 example_data = cursor.fetchone()
-
-# Pair each column name with the corresponding example data
 column_data_pairs = [f"{column_names[i]}: {example_data[i]}" for i in range(len(column_names))]
 
-# Concatenate the column-data pairs into a single string, separated by new lines
+#Join the data
 column_data_string = "\n".join(column_data_pairs)
 
 st.title("SQL Query Generator Example")
@@ -94,7 +90,6 @@ def save_feedback(natural_language_input, sql_query, feedback, ran):
         }
     df = df.append(new_row, ignore_index=True)
     df.to_csv(feedback_data_path, index=False)
-
 
 if 'feedback_given' not in st.session_state:
     st.session_state['feedback_given'] = False
