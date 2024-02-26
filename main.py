@@ -44,7 +44,6 @@ def refine_sql_with_promptlayer(natural_language, columns):
     return refined_sql
 
 # Connect to your SQL database
-# Adjust this line to match your database type and credentials
 current_dir = Path(__file__).parent
 db_path = current_dir / 'northwind.db'
 feedback_data_path = str(current_dir/"feedback_data.csv")
