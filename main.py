@@ -19,8 +19,7 @@ promptlayer.openai.api_key = OPENAI_API_KEY
 def refine_sql_with_promptlayer(natural_language, columns):
     variables = {
     'database_name':"Northwest Traders database from Microsoft 2016",
-    'columns':"",
-    'other_considerations':columns,
+    'columns':columns,
     'User_NL': natural_language
     }
 
@@ -39,7 +38,7 @@ def refine_sql_with_promptlayer(natural_language, columns):
         prompt_name='NL_to_SQL', prompt_input_variables=variables)
 
     refined_sql = response.choices[0].message.content
-    return refined_sql
+    return refined_sql, pl_id
 
 # Connect to your SQL database
 current_dir = Path(__file__).parent
@@ -76,7 +75,7 @@ if 'display_sample' not in st.session_state or st.session_state.display_sample:
 natural_language_input = st.text_input("Enter your question:", "How many different ship names are there?")
 
 #Push feedback to CSV
-def save_feedback(natural_language_input, sql_query, feedback, ran):
+def save_feedback(natural_language_input, sql_query, feedback, ran, pl_id):
     current_dir = Path(__file__).parent
     feedback_data_path = str(current_dir/"feedback_data.csv")
     df = pd.read_csv(feedback_data_path)
@@ -88,6 +87,12 @@ def save_feedback(natural_language_input, sql_query, feedback, ran):
         }
     df = df.append(new_row, ignore_index=True)
     df.to_csv(feedback_data_path, index=False)
+    promptlayer.track.metadata(
+        request_id=pl_id,
+        metadata={
+            "Feedback": feedback,
+        }
+    )  
 
 #add session state variables to persist in streamlit across runs 
 if 'feedback_given' not in st.session_state:
@@ -96,18 +101,31 @@ if 'SQL_query' not in st.session_state:
     st.session_state['SQL_query'] = ""
 if 'program_ran' not in st.session_state:
     st.session_state['program_ran'] = False
+if 'pl_id' not in st.session_state:
+    st.session_state['pl_id'] = None
 
 if st.button("Generate SQL Query", key="submit"):
-    st.session_state['SQL_query'] = refine_sql_with_promptlayer(natural_language_input, column_data_string)
+    st.session_state['SQL_query'], pl_id = refine_sql_with_promptlayer(natural_language_input, column_data_string)
+    st.session_state['pl_id'] = pl_id
     st.session_state['feedback_given'] = False
     st.session_state['program_ran'] = False
     try:
         df = pd.read_sql_query(st.session_state['SQL_query'], conn)
         st.session_state['program_ran'] = True
+        #score 100 if the SQL runs
+        promptlayer.track.score(
+            request_id=pl_id,
+            score=100
+        )
     except Exception as e:
         st.error(f"Error executing query: {e}")
         st.session_state['program_ran'] = False
         save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'])
+        #score 0 if the SQL did not run
+        promptlayer.track.score(
+            request_id=pl_id,
+            score=0
+        )
     
 # Ensure the SQL result remains displayed after feedback
 if st.session_state['program_ran']:
@@ -126,16 +144,16 @@ feedback_placeholder = st.empty()
 if st.session_state['program_ran']:
     st.write("Rate your result:")
     thumbs_up, thumbs_down = st.columns(2)
-    
     if thumbs_up.button("👍", key="thumbs_up") and not st.session_state['feedback_given']:
-        save_feedback(natural_language_input, st.session_state['SQL_query'], "Positive", st.session_state['program_ran'])
+        save_feedback(natural_language_input, st.session_state['SQL_query'], "Positive", st.session_state['program_ran'], st.session_state['pl_id'])
         st.success("Thanks for the feedback! 👍")
         st.session_state['feedback_given'] = True
         
     if thumbs_down.button("👎", key="thumbs_down") and not st.session_state['feedback_given']:
-        save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'])
+        save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'], st.session_state['pl_id'])
         st.error("Thanks for the feedback, we're working on it!")
         st.session_state['feedback_given'] = True
+        
 
 # Close the connection to the database
 conn.close()
