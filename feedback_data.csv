@@ -80,3 +80,11 @@ LIMIT 1;",Positive,True
 What is the difference in the average freight cost between Lyon and Rio de Janeiro,"SELECT AVG(Freight) AS AverageFreightCost
 FROM Orders
 WHERE ShipCity IN ('Lyon', 'Rio de Janeiro')",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders;",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders;",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders;",Positive,True
+How many different ship names are there?,"SELECT COUNT(DISTINCT ShipName) AS NumberOfShipNames
+FROM Orders;",Negative,True
