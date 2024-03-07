@@ -146,12 +146,12 @@ if st.button("Generate Response", key="submit"):
         )
     except Exception as e:
         st.session_state['program_ran'] = False
-        save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'])
         #score 0 if the SQL did not run
         promptlayer.track.score(
             request_id=pl_id_NL_SQL,
             score=0
         )
+        save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'], st.session_state['pl_id_NL_SQL'])
         st.error(f"Error executing query: {e}")
         
     
