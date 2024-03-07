@@ -17,7 +17,7 @@ openai.api_key = OPENAI_API_KEY
 promptlayer.openai.api_key = OPENAI_API_KEY
 
 # Function to refine SQL query using PromptLayer
-def refine_sql_with_promptlayer(natural_language, columns):
+def refine_sql_with_promptlayer(natural_language, columns, pl_group_id):
     variables = {
     'columns':columns,
     'User_NL': natural_language
@@ -36,12 +36,17 @@ def refine_sql_with_promptlayer(natural_language, columns):
     # Associate request to Prompt Template
     promptlayer.track.prompt(request_id=pl_id, 
         prompt_name='NL_to_SQL', prompt_input_variables=variables)
+    
+    promptlayer.track.group(
+        request_id=pl_id, 
+        group_id=pl_group_id
+    )
 
     refined_sql = response.choices[0].message.content
     return refined_sql, pl_id
 
 #convert the SQL response to a natural language answer
-def sql_to_NL_answer(df, natural_language):
+def sql_to_NL_answer(df, natural_language, pl_group_id):
     df = df.to_string()
     variables = {
     'data':df,
@@ -61,6 +66,11 @@ def sql_to_NL_answer(df, natural_language):
     # Associate request to Prompt Template
     promptlayer.track.prompt(request_id=pl_id, 
         prompt_name='SQL to NL', prompt_input_variables=variables)
+    
+    promptlayer.track.group(
+        request_id=pl_id, 
+        group_id=pl_group_id
+    )
 
     NL_answer = response.choices[0].message.content
     return NL_answer, pl_id
@@ -133,9 +143,12 @@ if 'pl_id_SQL_NL' not in st.session_state:
     st.session_state['pl_id_SQL_NL'] = None
 if 'User_ID' not in st.session_state:
     st.session_state['User_ID'] = "Streamlit_"+str(random.randint(10000000, 99999999))
+if 'Group_ID' not in st.session_state:
+    st.session_state['Group_ID'] = promptlayer.group.create()
 
 if st.button("Generate Response", key="submit"):
-    st.session_state['SQL_query'], pl_id_NL_SQL = refine_sql_with_promptlayer(natural_language_input, column_data_string)
+    st.session_state['Group_ID'] = promptlayer.group.create()
+    st.session_state['SQL_query'], pl_id_NL_SQL = refine_sql_with_promptlayer(natural_language_input, column_data_string, st.session_state['Group_ID'])
     st.session_state['pl_id_NL_SQL'] = pl_id_NL_SQL
     st.session_state['feedback_given'] = False
     st.session_state['program_ran'] = False
@@ -163,7 +176,7 @@ if st.session_state['program_ran']:
     # st.write("SQL Query: %s" % (st.session_state['SQL_query']))
     try:
         df = pd.read_sql_query(st.session_state['SQL_query'], conn)
-        NL_answer, _ = sql_to_NL_answer(df, natural_language_input)
+        NL_answer, _ = sql_to_NL_answer(df, natural_language_input, st.session_state['Group_ID'])
         st.write(df)
         st.write(NL_answer) #NL Answer, could also write out df, to show the selected df
     except Exception as e:
