@@ -7,6 +7,7 @@ from pathlib import Path
 import openai
 import promptlayer
 from dotenv import load_dotenv
+import random
 
 # Load environment variables from .env file
 load_dotenv()
@@ -99,7 +100,7 @@ if 'display_sample' not in st.session_state or st.session_state.display_sample:
 natural_language_input = st.text_input("Enter your question:", "How many different ship names are there?")
 
 #Push feedback to CSV
-def save_feedback(natural_language_input, sql_query, feedback, ran, pl_id):
+def save_feedback(natural_language_input, sql_query, feedback, ran, pl_id, user_id):
     current_dir = Path(__file__).parent
     feedback_data_path = str(current_dir/"feedback_data.csv")
     df = pd.read_csv(feedback_data_path)
@@ -115,6 +116,7 @@ def save_feedback(natural_language_input, sql_query, feedback, ran, pl_id):
         request_id=pl_id,
         metadata={
             "Feedback": feedback,
+            "User_ID":user_id
         }
     )  
 
@@ -129,7 +131,8 @@ if 'pl_id_NL_SQL' not in st.session_state:
     st.session_state['pl_id_NL_SQL'] = None
 if 'pl_id_SQL_NL' not in st.session_state:
     st.session_state['pl_id_SQL_NL'] = None
-
+if 'User_ID' not in st.session_state:
+    st.session_state['User_ID'] = "Streamlit_"+str(random.randint(10000000, 99999999))
 
 if st.button("Generate Response", key="submit"):
     st.session_state['SQL_query'], pl_id_NL_SQL = refine_sql_with_promptlayer(natural_language_input, column_data_string)
@@ -151,7 +154,7 @@ if st.button("Generate Response", key="submit"):
             request_id=pl_id_NL_SQL,
             score=0
         )
-        save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'], st.session_state['pl_id_NL_SQL'])
+        save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'], st.session_state['pl_id_NL_SQL'], st.session_state['User_ID'])
         st.error(f"Error executing query: {e}")
         
     
@@ -166,7 +169,7 @@ if st.session_state['program_ran']:
     except Exception as e:
         st.error(f"Error re-displaying query result: {e}")
         st.session_state['program_ran'] = False
-        save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'], st.session_state['pl_id_NL_SQL'])
+        save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'], st.session_state['pl_id_NL_SQL'], st.session_state['User_ID'])
     
 feedback_placeholder = st.empty()
 
@@ -175,12 +178,12 @@ if st.session_state['program_ran']:
     st.write("Rate your result:")
     thumbs_up, thumbs_down = st.columns(2)
     if thumbs_up.button("👍", key="thumbs_up") and not st.session_state['feedback_given']:
-        save_feedback(natural_language_input, st.session_state['SQL_query'], "Positive", st.session_state['program_ran'], st.session_state['pl_id_NL_SQL'])
+        save_feedback(natural_language_input, st.session_state['SQL_query'], "Positive", st.session_state['program_ran'], st.session_state['pl_id_NL_SQL'], st.session_state['User_ID'])
         st.success("Thanks for the feedback! 👍")
         st.session_state['feedback_given'] = True
         
     if thumbs_down.button("👎", key="thumbs_down") and not st.session_state['feedback_given']:
-        save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'], st.session_state['pl_id_NL_SQL'])
+        save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'], st.session_state['pl_id_NL_SQL'], st.session_state['User_ID'])
         st.error("Thanks for the feedback, we're working on it!")
         st.session_state['feedback_given'] = True
         
