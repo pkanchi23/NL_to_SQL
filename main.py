@@ -131,7 +131,7 @@ if 'pl_id_SQL_NL' not in st.session_state:
     st.session_state['pl_id_SQL_NL'] = None
 
 
-if st.button("Generate SQL Query", key="submit"):
+if st.button("Generate Response", key="submit"):
     st.session_state['SQL_query'], pl_id_NL_SQL = refine_sql_with_promptlayer(natural_language_input, column_data_string)
     st.session_state['pl_id_NL_SQL'] = pl_id_NL_SQL
     st.session_state['feedback_given'] = False
@@ -145,7 +145,6 @@ if st.button("Generate SQL Query", key="submit"):
             score=100
         )
     except Exception as e:
-        st.error(f"Error executing query: {e}")
         st.session_state['program_ran'] = False
         save_feedback(natural_language_input, st.session_state['SQL_query'], "Negative", st.session_state['program_ran'])
         #score 0 if the SQL did not run
@@ -153,6 +152,8 @@ if st.button("Generate SQL Query", key="submit"):
             request_id=pl_id_NL_SQL,
             score=0
         )
+        st.error(f"Error executing query: {e}")
+        
     
 # Ensure the SQL result remains displayed after feedback
 if st.session_state['program_ran']:
