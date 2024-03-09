@@ -3,3 +3,6 @@ pandas
 openai==0.28.0
 promptlayer
 python-dotenv
+Flask
+gunicorn
+typing_extensions

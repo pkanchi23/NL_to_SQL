@@ -90,7 +90,6 @@ def sql_to_NL_answer(df, natural_language, pl_group_id):
 def handle_positive_feedback():
     # Update session state to indicate feedback has been given
     st.session_state['feedback_given'] = True
-    st.session_state['temp'] = True  # It seems you're using 'temp' as an additional flag; ensure its role is clear and necessary
     
     # Perform your feedback logic here
     promptlayer.track.metadata(
@@ -112,9 +111,8 @@ def handle_positive_feedback():
 
 #function to handle feedback
 def handle_negative_feedback():
-    # Similar update for negative feedback
+    # update for negative feedback
     st.session_state['feedback_given'] = True
-    st.session_state['temp'] = True
     
     # Negative feedback logic
     promptlayer.track.metadata(
@@ -186,8 +184,6 @@ if 'Result_Generated' not in st.session_state:
 if 'starter_question' not in st.session_state:
     starter_questions = ["How many different ship names are there?", "What is the difference in the average freight cost between Lyon and Rio de Janeiro?", "What is the employee ID that handled the most orders?", "Which country received the highest number of orders?", "List all orders placed by customer LEHMS"]
     st.session_state['starter_question'] = starter_questions[random.randint(0,5)]
-if 'temp' not in st.session_state:
-    st.session_state['temp'] = False
 
 #Choose a random starter question
 natural_language_input = st.text_input("Enter your question:", st.session_state['starter_question'])
