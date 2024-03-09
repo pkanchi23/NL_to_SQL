@@ -1,0 +1,267 @@
+﻿Question,Columns
+How many different ship names are there?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+How many orders were placed in 2016?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+How many different ship names are there?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+What is the total freight  weight for all orders shipped to France?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+Which customer placed the most orders?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+How many orders were shipped via each shipping method?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+What is the average freight weight for orders shipped to the United States?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+List all orders placed by customer LEHMS,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+How many orders were shipped within the expected shipping date?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+What percent of orders were shipped within the expected shipping date?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+What is the total number of orders shipped to each city?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+Who is the employee that handled the most orders?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+What is the total freight weight for orders shipped in December 2016?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+How many orders have not been shipped yet?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+Which country received the highest number of orders?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+How many orders were placed but not yet shipped as of a specific date?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+How many orders were placed in the first quarter of the year?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+How many orders were shipped to countries outside of the European Union?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
+How many different ship names are there?,"OrderID: 10248
+CustomerID: VINET
+EmployeeID: 5
+OrderDate: 2016-07-04
+RequiredDate: 2016-08-01
+ShippedDate: 2016-07-16
+ShipVia: 3
+Freight: 16.75
+ShipName: Vins et alcools Chevalier
+ShipAddress: 59 rue de l-Abbaye
+ShipCity: Reims
+ShipRegion: Western Europe
+ShipPostalCode: 51100
+ShipCountry: France"
